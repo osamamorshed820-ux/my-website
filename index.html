@@ -53,6 +53,7 @@
       width: 40%;
       height: 300px;
       object-fit: cover;
+      cursor: pointer;
     }
 
     .detail-item p {
@@ -62,64 +63,90 @@
       line-height: 1.6;
     }
 
-    @media (max-width: 768px) {
-      .gallery {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+    }
 
-      .detail-item {
-        flex-direction: column;
-      }
-
-      .detail-item img {
-        width: 100%;
-        height: auto;
-      }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
     }
   </style>
 </head>
 <body>
   <!-- شبكة الصور -->
   <div class="gallery">
-    <img src="nft1.jpeg" alt="NFT1">
-    <img src="nft2.jpeg" alt="NFT2">
-    <img src="nft3.jpeg" alt="NFT3">
-    <img src="nft4.jpeg" alt="NFT4">
-    <img src="nft5.jpeg" alt="NFT5">
-    <img src="nft6.jpeg" alt="NFT6">
+    <img src="nft1.jpeg" alt="NFT1" onclick="openLightbox(this)">
+    <img src="nft2.jpeg" alt="NFT2" onclick="openLightbox(this)">
+    <img src="nft3.jpeg" alt="NFT3" onclick="openLightbox(this)">
+    <img src="nft4.jpeg" alt="NFT4" onclick="openLightbox(this)">
+    <img src="nft5.jpeg" alt="NFT5" onclick="openLightbox(this)">
+    <img src="nft6.jpeg" alt="NFT6" onclick="openLightbox(this)">
   </div>
 
   <!-- التفاصيل -->
   <div class="details">
     <div class="detail-item">
-      <img src="nft1.jpeg" alt="NFT1">
+      <img src="nft1.jpeg" alt="NFT1" onclick="openLightbox(this)">
       <p>مستقبل المال: رؤية عصرية تجسد عالم العملات الرقمية والأناقة التكنولوجية.</p>
     </div>
-
     <div class="detail-item">
-      <img src="nft2.jpeg" alt="NFT2">
+      <img src="nft2.jpeg" alt="NFT2" onclick="openLightbox(this)">
       <p>بياض الغموض: حضور طاغٍ لشخصية خفية في زي أبيض ناصع.</p>
     </div>
-
     <div class="detail-item">
-      <img src="nft3.jpeg" alt="NFT3">
+      <img src="nft3.jpeg" alt="NFT3" onclick="openLightbox(this)">
       <p>ظل أنيق: تجسيد للغموض والأناقة العصرية بخطوط بسيطة ولمسات لونية جذابة.</p>
     </div>
-
     <div class="detail-item">
-      <img src="nft4.jpeg" alt="NFT4">
+      <img src="nft4.jpeg" alt="NFT4" onclick="openLightbox(this)">
       <p>غموض الأناقة: رجل بملامح داكنة وقبعة كلاسيكية، محاط بهالة ذهبية من السرية والجاذبية.</p>
     </div>
-
     <div class="detail-item">
-      <img src="nft5.jpeg" alt="NFT5">
+      <img src="nft5.jpeg" alt="NFT5" onclick="openLightbox(this)">
       <p>ذهبية القيادة: حضور قوي بشخصية ملكية متوهجة بالذهب.</p>
     </div>
-
     <div class="detail-item">
-      <img src="nft6.jpeg" alt="NFT6">
+      <img src="nft6.jpeg" alt="NFT6" onclick="openLightbox(this)">
       <p>تألق الفخامة: ملك متوج بألماس يجسد الثقة والأناقة المطلقة.</p>
     </div>
   </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <script>
+    function openLightbox(img) {
+      document.getElementById("lightbox-img").src = img.src;
+      document.getElementById("lightbox").style.display = "flex";
+    }
+
+    function closeLightbox(e) {
+      if (e.target.id === "lightbox" || e.key === "Escape") {
+        document.getElementById("lightbox").style.display = "none";
+      }
+    }
+
+    // إغلاق بالكيبورد ESC
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") {
+        document.getElementById("lightbox").style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>
