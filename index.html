@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع احترافي</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+            background: url("porsche-white.jpg.png") no-repeat center center fixed;
+            background-size: cover; /* تخلي الصورة تغطي الشاشة كاملة */
+        }
+
+        #three-js-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .content-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            width: 80%;
+            max-width: 600px;
+            background-color: rgba(0, 0, 0, 0.5); /* خلفية شفافة غامقة عشان النص يبين فوق الصورة */
+            backdrop-filter: blur(5px);
+            padding: 2em;
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        #cta-button {
+            background-color: #6a11cb;
+            color: #fff;
+            border: none;
+            padding: 1em 2em;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            margin-top: 1.5em;
+        }
+
+        #cta-button:hover {
+            background-color: #2575fc;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div id="three-js-container"></div>
+    <div class="content-container">
+        <h1>مرحبا بك في موقعنا الاحترافي</h1>
+        <p>اكتشف عالمًا من الإبداع والابتكار. تصميماتنا تجمع بين الجمال والبساطة، لتقدم لك تجربة لا تُنسى.</p>
+        <button id="cta-button">انطلق الآن</button>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'https://cdn.skypack.dev/three@0.134.0';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true }); // شفافية عشان الخلفية تبين
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const container = document.getElementById('three-js-container');
+        container.appendChild(renderer.domElement);
+
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('porsche-white.jpg.png');
+
+        const geometry = new THREE.BoxGeometry(2, 2, 2);
+        const material = new THREE.MeshBasicMaterial({ map: texture });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+        camera.position.z = 5;
+        let isRotating = false;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (isRotating) {
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+            }
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('click', () => {
+            isRotating = !isRotating;
+        });
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        const ctaButton = document.getElementById('cta-button');
+        ctaButton.addEventListener('click', () => {
+            alert('شكرا لاهتمامك! سيتم نقلك قريبا إلى صفحة أخرى.');
+        });
+    </script>
+</body>
+</html>
